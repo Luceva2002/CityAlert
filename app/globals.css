@@ -9,36 +9,40 @@
 
 :root {
   /* ─── Fondali ─── */
-  --bg: #f2f4fa;
-  --bg-deep: #e8ecf5;
+  --bg: #f4f5f7;
+  --bg-deep: #e9ebf0;
   --card: #ffffff;
+  --surface-muted: #f8f9fb;
 
   /* ─── Oro segnale ─── */
   --gold-300: #ffdf70;
   --gold-400: #ffc933;
   --gold-500: #f5b301;
-  --gold-600: #d89b00;
+  --gold-600: #b07d00;
+  --gold-tint: #fff6da;
   --on-gold: #231a00;
 
-  /* ─── Testo ─── */
-  --text-hi: #101828;
-  --text-mid: rgba(16, 24, 40, 0.62);
-  --text-low: rgba(16, 24, 40, 0.4);
+  /* ─── Inchiostro (testo e superfici scure) ─── */
+  --ink: #0f172a;
+  --text-hi: #0f172a;
+  --text-mid: #475467;
+  --text-low: #8a94a6;
 
   /* ─── Semantica (contrasto AA su chiaro) ─── */
   --danger: #dc2626;
   --success: #059669;
   --info: #0284c7;
 
-  /* ─── Vetro liquido ─── */
-  --glass-bg: rgba(255, 255, 255, 0.6);
-  --glass-bg-heavy: rgba(255, 255, 255, 0.78);
-  --stroke: rgba(255, 255, 255, 0.65);
-  --stroke-dark: rgba(16, 24, 40, 0.08);
+  /* ─── Bordi e vetro ─── */
+  --glass-bg: rgba(255, 255, 255, 0.86);
+  --glass-bg-heavy: rgba(255, 255, 255, 0.94);
+  --stroke: rgba(15, 23, 42, 0.06);
+  --stroke-dark: rgba(15, 23, 42, 0.1);
 
   /* ─── Ombre ─── */
-  --shadow-float: 0 8px 32px rgba(16, 24, 40, 0.12), 0 2px 8px rgba(16, 24, 40, 0.06);
-  --shadow-gold: 0 8px 28px rgba(245, 179, 1, 0.4);
+  --shadow-card: 0 1px 2px rgba(15, 23, 42, 0.05), 0 4px 16px rgba(15, 23, 42, 0.06);
+  --shadow-float: 0 2px 6px rgba(15, 23, 42, 0.08), 0 12px 32px rgba(15, 23, 42, 0.14);
+  --shadow-gold: 0 6px 20px rgba(176, 125, 0, 0.3);
 
   --font-display: 'Space Grotesk', 'Inter', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
@@ -51,6 +55,7 @@
   --color-gold-500: var(--gold-500);
   --color-gold-600: var(--gold-600);
 
+  --color-ink: var(--ink);
   --color-hi: var(--text-hi);
   --color-mid: var(--text-mid);
   --color-low: var(--text-low);
@@ -121,45 +126,42 @@
   padding-bottom: max(2rem, calc(env(safe-area-inset-bottom, 0px) + 1rem));
 }
 
-/* ─── Vetro liquido (iOS-like): gradiente diagonale, blur saturo,
-       riflesso speculare in alto, bordo luce, ombra morbida ─── */
+/* ─── Superfici: vetro quasi opaco, leggibile anche sopra la mappa ─── */
 @utility glass {
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.78) 0%,
-    rgba(255, 255, 255, 0.42) 48%,
-    rgba(255, 255, 255, 0.62) 100%
-  );
-  backdrop-filter: blur(28px) saturate(2) brightness(1.04);
-  -webkit-backdrop-filter: blur(28px) saturate(2) brightness(1.04);
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px) saturate(1.6);
+  -webkit-backdrop-filter: blur(20px) saturate(1.6);
   border: 1px solid var(--stroke);
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 0.95),
-    inset 0 -1px 1px rgba(16, 24, 40, 0.05),
-    inset 0 12px 24px -12px rgba(255, 255, 255, 0.65),
-    0 4px 24px rgba(16, 24, 40, 0.08);
+  box-shadow: var(--shadow-card);
 }
 
 @utility glass-heavy {
-  background: linear-gradient(
-    160deg,
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(255, 255, 255, 0.62) 48%,
-    rgba(255, 255, 255, 0.8) 100%
-  );
-  backdrop-filter: blur(36px) saturate(2.1) brightness(1.05);
-  -webkit-backdrop-filter: blur(36px) saturate(2.1) brightness(1.05);
-  border: 1px solid rgba(255, 255, 255, 0.85);
-  box-shadow:
-    inset 0 1px 1px rgba(255, 255, 255, 1),
-    inset 0 -1px 1px rgba(16, 24, 40, 0.06),
-    inset 0 16px 32px -16px rgba(255, 255, 255, 0.75),
-    0 8px 32px rgba(16, 24, 40, 0.12);
+  background: var(--glass-bg-heavy);
+  backdrop-filter: blur(24px) saturate(1.8);
+  -webkit-backdrop-filter: blur(24px) saturate(1.8);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow-float);
+}
+
+/* Card piena bianca */
+@utility card {
+  background: var(--card);
+  border: 1px solid var(--stroke);
+  box-shadow: var(--shadow-card);
+}
+
+/* Etichetta di sezione */
+@utility eyebrow {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-low);
 }
 
 /* Testo con gradiente oro */
 @utility text-gold-gradient {
-  background: linear-gradient(135deg, var(--gold-400) 0%, var(--gold-500) 55%, var(--gold-600) 100%);
+  background: linear-gradient(135deg, var(--gold-500) 0%, var(--gold-600) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -167,7 +169,7 @@
 
 /* Trama puntinata tenue */
 @utility dot-grid {
-  background-image: radial-gradient(rgba(16, 24, 40, 0.05) 1px, transparent 1px);
+  background-image: radial-gradient(rgba(15, 23, 42, 0.045) 1px, transparent 1px);
   background-size: 22px 22px;
 }
 

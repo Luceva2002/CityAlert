@@ -38,11 +38,11 @@ export function VoteBar({ reportId, likes, dislikes, myVote, onChange }: VoteBar
   };
 
   const base =
-    'flex-1 h-12 rounded-full flex items-center justify-center gap-2 text-sm font-bold transition-all active:scale-[0.97] disabled:opacity-60';
+    'flex-1 h-12 rounded-2xl flex items-center justify-center gap-2 text-sm font-bold transition-all active:scale-[0.97] disabled:opacity-60';
 
   return (
     <div>
-      <p className="text-[11px] font-bold text-low uppercase tracking-[0.14em] mb-2.5">
+      <p className="eyebrow mb-2.5">
         {t('reportDetail.votes.title')}
       </p>
       <div className="flex gap-2.5">
@@ -55,7 +55,7 @@ export function VoteBar({ reportId, likes, dislikes, myVote, onChange }: VoteBar
           className={`${base} ${
             myVote === 1
               ? 'bg-success text-white shadow-[0_6px_20px_rgba(5,150,105,0.35)]'
-              : 'glass text-hi hover:bg-white/85'
+              : 'card text-hi hover:bg-(--surface-muted)'
           }`}
         >
           <ThumbsUp className="w-[18px] h-[18px]" />
@@ -70,7 +70,7 @@ export function VoteBar({ reportId, likes, dislikes, myVote, onChange }: VoteBar
           className={`${base} ${
             myVote === -1
               ? 'bg-danger text-white shadow-[0_6px_20px_rgba(220,38,38,0.35)]'
-              : 'glass text-hi hover:bg-white/85'
+              : 'card text-hi hover:bg-(--surface-muted)'
           }`}
         >
           <ThumbsDown className="w-[18px] h-[18px]" />

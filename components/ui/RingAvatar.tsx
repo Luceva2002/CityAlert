@@ -1,6 +1,6 @@
 interface RingAvatarProps {
   initial: string;
-  size?: 'sm' | 'lg';
+  size?: 'sm' | 'md' | 'lg';
 }
 
 /** Avatar con anelli concentrici — vetro chiaro + oro */
@@ -10,6 +10,20 @@ export function RingAvatar({ initial, size = 'lg' }: RingAvatarProps) {
       <div className="w-11 h-11 rounded-full glass flex items-center justify-center text-sm font-bold text-gold-600">
         {initial}
       </div>
+    );
+  }
+
+  if (size === 'md') {
+    return (
+      <span
+        className="relative w-[68px] h-[68px] shrink-0 rounded-full flex items-center justify-center text-[28px] font-bold text-(--on-gold) ring-4 ring-(--gold-tint)"
+        style={{
+          background: 'linear-gradient(135deg, var(--gold-300), var(--gold-500))',
+          fontFamily: 'var(--font-display)',
+        }}
+      >
+        {initial}
+      </span>
     );
   }
 

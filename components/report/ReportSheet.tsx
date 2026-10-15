@@ -222,7 +222,7 @@ export function ReportSheet({ open, onClose, geo, onReportCreated }: ReportSheet
           animate={{ y: 0 }}
           exit={{ y: '100%' }}
           transition={{ type: 'spring', damping: 30, stiffness: 280 }}
-          className="relative flex-1 sm:flex-none sm:w-full sm:max-w-[480px] sm:h-[min(760px,92dvh)] flex flex-col overflow-hidden bg-(--bg) dot-grid sm:rounded-[32px] sm:shadow-2xl sm:border sm:border-white/60"
+          className="relative flex-1 sm:flex-none sm:w-full sm:max-w-[480px] sm:h-[min(760px,92dvh)] flex flex-col overflow-hidden bg-(--bg) sm:rounded-[32px] sm:shadow-2xl"
         >
           {/* Alone colore categoria in alto */}
           <div
@@ -266,7 +266,7 @@ export function ReportSheet({ open, onClose, geo, onReportCreated }: ReportSheet
                         className="absolute w-28 h-28 rounded-full border border-(--gold-500)/50 animate-radar"
                         style={{ animationDelay: '1.2s' }}
                       />
-                      <div className="w-24 h-24 rounded-full glass flex items-center justify-center">
+                      <div className="w-24 h-24 rounded-full card flex items-center justify-center">
                         <Locate className="w-10 h-10 text-gold-600" />
                       </div>
                     </div>
@@ -347,7 +347,7 @@ export function ReportSheet({ open, onClose, geo, onReportCreated }: ReportSheet
                   </p>
 
                   {photoPreview ? (
-                    <div className="relative flex-1 max-h-[46vh] rounded-3xl overflow-hidden border border-(--stroke-dark) shadow-sm mb-5">
+                    <div className="relative flex-1 max-h-[46vh] rounded-3xl overflow-hidden border border-(--stroke) mb-5">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img src={photoPreview} alt="" className="w-full h-full object-cover" />
                       <button
@@ -365,11 +365,11 @@ export function ReportSheet({ open, onClose, geo, onReportCreated }: ReportSheet
                     <button
                       type="button"
                       onClick={() => cameraInputRef.current?.click()}
-                      className="flex-1 min-h-[200px] max-h-[46vh] rounded-3xl border-2 border-dashed border-[rgba(16,24,40,0.15)] bg-white/50 flex flex-col items-center justify-center gap-4 mb-5 active:bg-white/80 hover:bg-white/70 transition-colors"
+                      className="flex-1 min-h-[200px] max-h-[46vh] rounded-3xl border-2 border-dashed border-(--stroke-dark) bg-white flex flex-col items-center justify-center gap-4 mb-5 active:bg-(--surface-muted) hover:bg-(--surface-muted) transition-colors"
                     >
                       <span
                         className="w-16 h-16 rounded-full flex items-center justify-center"
-                        style={{ background: 'rgba(245,179,1,0.15)' }}
+                        style={{ background: 'var(--gold-tint)' }}
                       >
                         <Camera className="w-8 h-8 text-gold-600" />
                       </span>
@@ -444,7 +444,7 @@ export function ReportSheet({ open, onClose, geo, onReportCreated }: ReportSheet
                   </p>
 
                   {catMeta && (
-                    <div className="self-center mb-5 flex items-center gap-2.5 glass rounded-full pl-2 pr-4 py-1.5">
+                    <div className="self-center mb-5 flex items-center gap-2.5 card rounded-full pl-1.5 pr-4 py-1.5">
                       <span
                         className="w-9 h-9 rounded-full flex items-center justify-center text-xl bg-white"
                         style={{ border: `2px solid ${catMeta.color}` }}
@@ -463,7 +463,7 @@ export function ReportSheet({ open, onClose, geo, onReportCreated }: ReportSheet
                     placeholder={t('civicReport.comment.placeholder')}
                     maxLength={CHAR_LIMIT}
                     rows={6}
-                    className="w-full flex-1 min-h-[140px] rounded-3xl bg-white border border-(--stroke-dark) focus:border-gold-500 focus:shadow-[0_0_0_3px_rgba(245,179,1,0.15)] px-5 py-4 text-base text-hi resize-none outline-none placeholder:text-low transition-all mb-2"
+                    className="w-full flex-1 min-h-[140px] rounded-2xl bg-white border border-(--stroke-dark) focus:border-gold-500 focus:shadow-[0_0_0_4px_rgba(245,179,1,0.18)] px-4 py-3.5 text-base text-hi resize-none outline-none placeholder:text-low transition-all mb-2"
                   />
                   <p className="text-right text-xs text-low mb-4">
                     {description.length}/{CHAR_LIMIT}
@@ -531,7 +531,7 @@ export function ReportSheet({ open, onClose, geo, onReportCreated }: ReportSheet
                       transition={{ delay: 0.35 }}
                       className="mt-6 flex flex-col items-center gap-2"
                     >
-                      <span className="flex items-center gap-2 glass rounded-full px-5 py-2.5 text-gold-600 font-bold text-base">
+                      <span className="flex items-center gap-2 bg-(--gold-tint) border border-(--gold-500)/30 rounded-full px-5 py-2.5 text-(--on-gold) font-bold text-base">
                         <Sparkles className="w-4 h-4" />
                         {t('civicReport.success.reward', {
                           xp: reward.xpAwarded,

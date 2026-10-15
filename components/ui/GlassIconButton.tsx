@@ -24,7 +24,7 @@ export function GlassIconButton({
   disabled,
   className = '',
 }: GlassIconButtonProps) {
-  const cls = `${heavy ? 'glass-heavy' : 'glass'} rounded-full flex items-center justify-center text-hi active:scale-95 hover:bg-white/85 transition-all disabled:opacity-40 ${className}`;
+  const cls = `${heavy ? 'glass-heavy' : 'glass'} rounded-full flex items-center justify-center text-hi active:scale-95 hover:bg-white transition-all disabled:opacity-40 ${className}`;
   const style = { width: size, height: size };
 
   if (href) {

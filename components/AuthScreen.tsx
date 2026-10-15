@@ -15,13 +15,13 @@ type Phase = 'splash' | 'login' | 'register';
 const SPLASH_MS = 2200;
 
 const inputWrapClass =
-  'flex items-center gap-3 w-full h-[54px] px-5 rounded-2xl bg-white border border-(--stroke-dark) focus-within:border-gold-500 focus-within:shadow-[0_0_0_3px_rgba(245,179,1,0.15)] transition-all shadow-sm';
+  'flex items-center gap-3 w-full h-[52px] px-4 rounded-2xl bg-(--surface-muted) border border-(--stroke-dark) focus-within:bg-white focus-within:border-gold-500 focus-within:shadow-[0_0_0_4px_rgba(245,179,1,0.18)] transition-all';
 const inputClass =
   'flex-1 bg-transparent text-base text-hi outline-none placeholder:text-low min-w-0';
 
 function FieldLabel({ children }: { children: React.ReactNode }) {
   return (
-    <label className="block text-[11px] font-bold text-low mb-2 ml-1 uppercase tracking-[0.14em]">
+    <label className="block text-[13px] font-semibold text-hi mb-1.5 ml-0.5">
       {children}
     </label>
   );
@@ -161,95 +161,97 @@ export function AuthScreen() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -14 }}
             transition={{ type: 'spring', damping: 24, stiffness: 220 }}
-            className="relative flex-1 flex flex-col items-center overflow-y-auto px-6 pb-10"
+            className="relative flex-1 flex flex-col items-center overflow-y-auto px-4 sm:px-6 pt-safe pb-safe"
           >
-            {/* Card centrata: piena larghezza su mobile, vetro su desktop */}
-            <div className="w-full max-w-[420px] flex flex-col flex-1 sm:flex-none sm:my-auto sm:glass-heavy sm:rounded-[32px] sm:px-8 sm:py-10">
-              <div className="pt-14 sm:pt-0 pb-10 flex flex-col items-center shrink-0">
-                <CityAlertLogo className="text-[42px]" />
-                <p className="text-mid text-sm mt-3 font-medium text-center max-w-[280px] leading-snug">
+            <div className="w-full max-w-[420px] flex flex-col my-auto">
+              <div className="pb-8 flex flex-col items-center shrink-0">
+                <CityAlertLogo className="text-[38px]" />
+                <p className="text-mid text-[15px] mt-3 text-center max-w-[290px] leading-snug">
                   {isRegister ? t('auth.register.subtitle') : t('auth.login.subtitle')}
                 </p>
               </div>
 
-              <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-                <div>
-                  <FieldLabel>{t('auth.email')}</FieldLabel>
-                  <div className={inputWrapClass}>
-                    <Mail className="w-[18px] h-[18px] text-low shrink-0" />
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      autoComplete="email"
-                      required
-                      placeholder={t('auth.emailPlaceholder')}
-                      className={inputClass}
-                    />
+              {/* Card del modulo */}
+              <div className="card rounded-[28px] px-5 py-6 sm:px-7 sm:py-8">
+                <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                  <div>
+                    <FieldLabel>{t('auth.email')}</FieldLabel>
+                    <div className={inputWrapClass}>
+                      <Mail className="w-[18px] h-[18px] text-low shrink-0" />
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        autoComplete="email"
+                        required
+                        placeholder={t('auth.emailPlaceholder')}
+                        className={inputClass}
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div>
-                  <FieldLabel>{t('auth.password')}</FieldLabel>
-                  <div className={inputWrapClass}>
-                    <Lock className="w-[18px] h-[18px] text-low shrink-0" />
-                    <input
-                      type="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      autoComplete={isRegister ? 'new-password' : 'current-password'}
-                      required
-                      minLength={6}
-                      placeholder="••••••••"
-                      className={inputClass}
-                    />
-                  </div>
-                </div>
-
-                {isRegister && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: 'auto' }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="overflow-hidden"
-                  >
-                    <FieldLabel>{t('auth.confirmPassword')}</FieldLabel>
+                  <div>
+                    <FieldLabel>{t('auth.password')}</FieldLabel>
                     <div className={inputWrapClass}>
                       <Lock className="w-[18px] h-[18px] text-low shrink-0" />
                       <input
                         type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        autoComplete="new-password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        autoComplete={isRegister ? 'new-password' : 'current-password'}
                         required
                         minLength={6}
                         placeholder="••••••••"
                         className={inputClass}
                       />
                     </div>
-                  </motion.div>
-                )}
+                  </div>
 
-                {error && (
-                  <p className="text-sm text-danger text-center font-semibold">{error}</p>
-                )}
-                {successMessage && (
-                  <p className="text-sm text-success text-center font-semibold">
-                    {successMessage}
-                  </p>
-                )}
+                  {isRegister && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="overflow-hidden"
+                    >
+                      <FieldLabel>{t('auth.confirmPassword')}</FieldLabel>
+                      <div className={inputWrapClass}>
+                        <Lock className="w-[18px] h-[18px] text-low shrink-0" />
+                        <input
+                          type="password"
+                          value={confirmPassword}
+                          onChange={(e) => setConfirmPassword(e.target.value)}
+                          autoComplete="new-password"
+                          required
+                          minLength={6}
+                          placeholder="••••••••"
+                          className={inputClass}
+                        />
+                      </div>
+                    </motion.div>
+                  )}
 
-                <div className="mt-2">
-                  <PillButton
-                    type="submit"
-                    variant="gold"
-                    disabled={!canSubmit}
-                    loading={submitting}
-                  >
-                    {isRegister ? t('auth.register') : t('auth.submit')}
-                  </PillButton>
-                </div>
-              </form>
+                  {error && (
+                    <p className="text-sm text-danger text-center font-semibold">{error}</p>
+                  )}
+                  {successMessage && (
+                    <p className="text-sm text-success text-center font-semibold">
+                      {successMessage}
+                    </p>
+                  )}
+
+                  <div className="mt-1">
+                    <PillButton
+                      type="submit"
+                      variant="gold"
+                      disabled={!canSubmit}
+                      loading={submitting}
+                    >
+                      {isRegister ? t('auth.register') : t('auth.submit')}
+                    </PillButton>
+                  </div>
+                </form>
+              </div>
 
               <button
                 type="button"
@@ -258,7 +260,7 @@ export function AuthScreen() {
                   setError('');
                   setSuccessMessage('');
                 }}
-                className="mt-8 text-sm font-semibold text-mid hover:text-gold-600 transition-colors text-center"
+                className="mt-6 h-11 text-[15px] font-semibold text-mid hover:text-hi transition-colors text-center"
               >
                 {isRegister ? t('auth.hasAccount') : t('auth.noAccount')}
               </button>

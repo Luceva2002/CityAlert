@@ -7,7 +7,6 @@ import { AlertTriangle, Loader2, Locate, Megaphone, User, X } from 'lucide-react
 import 'mapbox-gl/dist/mapbox-gl.css';
 
 import { CityAlertLogo } from '@/components/CityAlertLogo';
-import { LiveBadge } from '@/components/map/LiveBadge';
 import { RecentReportsPanel } from '@/components/map/RecentReportsPanel';
 import { ReportPin, UserLocationDot } from '@/components/map/ReportPin';
 import { ReportSheet } from '@/components/report/ReportSheet';
@@ -106,6 +105,11 @@ export function MapScreen() {
       // Preset giorno per lo stile Mapbox Standard (coerente col tema chiaro)
       (map as unknown as { setConfigProperty: (s: string, k: string, v: string) => void })
         .setConfigProperty('basemap', 'lightPreset', MAP_LIGHT_PRESET);
+      // Mappa più pulita: i pin delle segnalazioni restano protagonisti
+      const setConfig = (map as unknown as { setConfigProperty: (s: string, k: string, v: boolean) => void })
+        .setConfigProperty.bind(map);
+      setConfig('basemap', 'showPointOfInterestLabels', false);
+      setConfig('basemap', 'showTransitLabels', false);
     } catch {
       // stile senza config → mantiene il preset di default
     }
@@ -187,82 +191,73 @@ export function MapScreen() {
 
       {/* Velo in alto per leggibilità header */}
       <div
-        className="absolute top-0 left-0 right-0 h-32 pointer-events-none z-10"
-        style={{ background: 'linear-gradient(to bottom, rgba(242,244,250,0.85), transparent)' }}
+        className="absolute top-0 left-0 right-0 h-36 pointer-events-none z-10"
+        style={{ background: 'linear-gradient(to bottom, rgba(244,245,247,0.9), rgba(244,245,247,0))' }}
         aria-hidden
       />
 
       {/* Header */}
-      <div className="absolute top-0 left-0 right-0 z-20 px-4 sm:px-6 pt-safe pb-3 pointer-events-none">
-        <div className="flex items-center justify-between pointer-events-auto">
-          <div className="glass-heavy rounded-full h-[52px] px-5 flex items-center">
-            <CityAlertLogo className="text-[22px]" />
+      <div className="absolute top-0 left-0 right-0 z-20 px-4 sm:px-6 pt-safe pointer-events-none">
+        <div className="flex items-center justify-between gap-3 pointer-events-auto">
+          <div className="glass-heavy rounded-2xl h-12 pl-3.5 pr-4 flex items-center">
+            <CityAlertLogo className="text-[20px]" />
           </div>
 
-          {/* Contatore live inline (tablet: il pannello lo copre su desktop) */}
-          <div className="hidden sm:flex lg:hidden">
-            <LiveBadge label={countLabel} />
-          </div>
-
-          <GlassIconButton href="/profile" ariaLabel={t('profile.title')} size={52} heavy>
-            <User className="w-[22px] h-[22px]" />
+          <GlassIconButton href="/profile" ariaLabel={t('profile.title')} size={48} heavy className="rounded-2xl!">
+            <User className="w-5 h-5" />
           </GlassIconButton>
-        </div>
-
-        {/* Contatore live sotto l'header, solo mobile */}
-        <div className="flex sm:hidden justify-center mt-3 pointer-events-auto">
-          <LiveBadge label={countLabel} />
         </div>
       </div>
 
       {/* Pannello desktop: segnalazioni recenti */}
       <RecentReportsPanel reports={reports} openCount={openCount} onSelect={openDetail} />
 
-      {/* Controlli in basso */}
-      <div className="absolute bottom-0 right-4 sm:right-8 z-20 pb-safe flex flex-col items-center gap-3">
-        <GlassIconButton
-          onClick={centerToUser}
-          disabled={!geo.location}
-          ariaLabel={t('map.center')}
-          size={48}
-          heavy
-        >
-          {geo.loading ? (
-            <Loader2 className="w-5 h-5 animate-spin" />
-          ) : (
-            <Locate className="w-5 h-5" />
-          )}
-        </GlassIconButton>
+      {/* Barra azioni in basso (mobile/tablet) · FAB esteso su desktop */}
+      <div className="absolute bottom-0 left-0 right-0 lg:left-auto z-20 px-4 sm:px-6 lg:px-8 pb-safe pointer-events-none">
+        <div className="flex justify-end mb-3 pointer-events-auto">
+          <GlassIconButton
+            onClick={centerToUser}
+            disabled={!geo.location}
+            ariaLabel={t('map.center')}
+            size={48}
+            heavy
+            className="rounded-2xl!"
+          >
+            {geo.loading ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <Locate className="w-5 h-5" />
+            )}
+          </GlassIconButton>
+        </div>
 
-        {/* FAB segnalazione */}
-        <button
-          type="button"
-          onClick={openReport}
-          className="group relative w-[70px] lg:w-auto h-[70px] rounded-full flex items-center justify-center active:scale-95 hover:brightness-105 transition-all"
-          aria-label={t('civicReport.mapHint')}
-        >
-          <span
-            className="absolute inset-0 rounded-full animate-radar border border-(--gold-500)/60"
-            aria-hidden
-          />
-          <span
-            className="absolute inset-0 rounded-full"
-            style={{
-              background: 'linear-gradient(135deg, var(--gold-300), var(--gold-600))',
-              boxShadow: '0 10px 32px rgba(245,179,1,0.5), inset 0 1px 0 rgba(255,255,255,0.5)',
-            }}
-            aria-hidden
-          />
-          <span className="relative flex items-center gap-2 lg:px-6">
-            <Megaphone className="w-8 h-8 text-(--on-gold)" strokeWidth={2.2} />
+        <div className="pointer-events-auto glass-heavy rounded-[26px] p-2.5 sm:max-w-md sm:ml-auto lg:w-auto lg:p-0 lg:bg-transparent lg:border-0 lg:shadow-none lg:backdrop-blur-none">
+          <div className="flex items-center justify-between px-2.5 pt-1 pb-3 lg:hidden">
+            <span className="flex items-center gap-2 text-[13px] font-semibold text-mid">
+              <span className="relative flex w-2 h-2" aria-hidden>
+                <span className="absolute inline-flex h-full w-full rounded-full bg-success opacity-50 animate-ping" />
+                <span className="relative inline-flex rounded-full w-2 h-2 bg-success" />
+              </span>
+              {countLabel}
+            </span>
+            <span className="text-[11px] font-bold tracking-[0.12em] text-low">{t('map.live')}</span>
+          </div>
+
+          <button
+            type="button"
+            onClick={openReport}
+            className="w-full lg:w-auto h-14 lg:h-16 lg:px-7 rounded-[18px] lg:rounded-full flex items-center justify-center gap-2.5 bg-gold-500 hover:bg-gold-400 text-(--on-gold) shadow-(--shadow-gold) active:scale-[0.98] transition-all"
+            aria-label={t('civicReport.mapHint')}
+          >
+            <Megaphone className="w-[22px] h-[22px]" strokeWidth={2.2} />
             <span
-              className="hidden lg:block text-[15px] font-bold text-(--on-gold) whitespace-nowrap"
+              className="text-[16px] font-bold whitespace-nowrap"
               style={{ fontFamily: 'var(--font-display)' }}
             >
               {t('civicReport.mapHint')}
             </span>
-          </span>
-        </button>
+          </button>
+        </div>
       </div>
 
       {/* Modale richiesta GPS */}
@@ -279,11 +274,11 @@ export function MapScreen() {
               animate={{ y: 0 }}
               exit={{ y: 48 }}
               transition={{ type: 'spring', damping: 26, stiffness: 260 }}
-              className="w-full max-w-sm glass-heavy rounded-[28px] p-6"
+              className="w-full max-w-sm card rounded-[28px] p-6"
             >
               <div
                 className="w-12 h-12 rounded-2xl flex items-center justify-center mb-4"
-                style={{ background: 'rgba(245,179,1,0.15)' }}
+                style={{ background: 'var(--gold-tint)' }}
               >
                 <Locate className="w-6 h-6 text-gold-600" />
               </div>
@@ -298,7 +293,7 @@ export function MapScreen() {
                 type="button"
                 onClick={() => geo.requestAccess()}
                 disabled={geo.loading}
-                className="w-full h-12 rounded-full bg-linear-to-b from-gold-400 to-gold-600 text-(--on-gold) font-bold text-sm disabled:opacity-50 flex items-center justify-center gap-2"
+                className="w-full h-12 rounded-2xl bg-gold-500 hover:bg-gold-400 text-(--on-gold) font-bold text-[15px] disabled:opacity-50 flex items-center justify-center gap-2 shadow-(--shadow-gold) transition-colors"
                 style={{ fontFamily: 'var(--font-display)' }}
               >
                 {geo.loading && <Loader2 className="w-4 h-4 animate-spin" />}
@@ -323,7 +318,7 @@ export function MapScreen() {
             initial={{ y: 40, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 40, opacity: 0 }}
-            className="absolute bottom-28 left-4 right-4 sm:left-auto sm:right-8 sm:w-[360px] z-20 glass-heavy rounded-2xl p-4 flex gap-3"
+            className="absolute bottom-[200px] lg:bottom-32 left-4 right-4 sm:left-auto sm:right-6 sm:w-[360px] z-20 glass-heavy rounded-2xl p-4 flex gap-3"
           >
             <AlertTriangle className="w-5 h-5 shrink-0 text-gold-600" />
             <div className="flex-1 text-sm">
