@@ -8,14 +8,16 @@ import { getCategoryMeta, type CivicReportRecord } from '@/types/civic';
 interface ReportMapThumbnailProps {
   report: CivicReportRecord;
   className?: string;
+  /** Disegna il pin oro nella mappa statica */
+  withPin?: boolean;
 }
 
 /** Anteprima mappa statica chiara (usata nelle card segnalazione) */
-export function ReportMapThumbnail({ report, className = '' }: ReportMapThumbnailProps) {
+export function ReportMapThumbnail({ report, className = '', withPin = true }: ReportMapThumbnailProps) {
   const meta = getCategoryMeta(report.category);
   const mapUrl = useMemo(
-    () => reportStaticMapUrl(report.longitude, report.latitude, 320, 220, 15),
-    [report.longitude, report.latitude],
+    () => reportStaticMapUrl(report.longitude, report.latitude, 320, 220, 15, withPin),
+    [report.longitude, report.latitude, withPin],
   );
 
   return (

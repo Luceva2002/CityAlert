@@ -77,7 +77,7 @@ export function CommentsSection({ reportId, onCountChange }: CommentsSectionProp
 
   return (
     <section>
-      <p className="flex items-center gap-1.5 text-[11px] font-bold text-low uppercase tracking-[0.14em] mb-3">
+      <p className="eyebrow flex items-center gap-1.5 mb-3">
         <MessageCircle className="w-3.5 h-3.5" />
         {t('reportDetail.comments.title')}
         {comments.length > 0 && <span>({comments.length})</span>}
@@ -95,7 +95,7 @@ export function CommentsSection({ reportId, onCountChange }: CommentsSectionProp
             <li
               key={comment.id}
               className={`rounded-2xl px-4 py-3 ${
-                comment.is_mine ? 'bg-(--gold-500)/10 border border-(--gold-500)/20' : 'glass'
+                comment.is_mine ? 'bg-(--gold-tint) border border-(--gold-500)/25' : 'bg-(--surface-muted) border border-(--stroke)'
               }`}
             >
               <p className="flex items-baseline justify-between gap-3 mb-1">
@@ -133,14 +133,14 @@ export function CommentsSection({ reportId, onCountChange }: CommentsSectionProp
           placeholder={t('reportDetail.comments.placeholder')}
           rows={1}
           maxLength={MAX_LENGTH}
-          className="flex-1 min-h-[48px] max-h-32 rounded-3xl bg-white border border-(--stroke-dark) focus:border-gold-500 focus:shadow-[0_0_0_3px_rgba(245,179,1,0.15)] px-5 py-3 text-sm text-hi resize-none outline-none placeholder:text-low transition-all"
+          className="flex-1 min-h-[48px] max-h-32 rounded-2xl bg-(--surface-muted) border border-(--stroke-dark) focus:bg-white focus:border-gold-500 focus:shadow-[0_0_0_4px_rgba(245,179,1,0.18)] px-4 py-3 text-sm text-hi resize-none outline-none placeholder:text-low transition-all"
         />
         <button
           type="button"
           onClick={send}
           disabled={!draft.trim() || sending}
           aria-label={t('reportDetail.comments.send')}
-          className="w-12 h-12 shrink-0 rounded-full bg-linear-to-b from-gold-400 to-gold-600 text-(--on-gold) flex items-center justify-center shadow-[0_6px_18px_rgba(245,179,1,0.35)] active:scale-95 hover:brightness-105 transition-all disabled:opacity-40 disabled:shadow-none"
+          className="w-12 h-12 shrink-0 rounded-2xl bg-gold-500 hover:bg-gold-400 text-(--on-gold) flex items-center justify-center shadow-(--shadow-gold) active:scale-95 transition-all disabled:opacity-40 disabled:shadow-none"
         >
           {sending ? (
             <Loader2 className="w-5 h-5 animate-spin" />

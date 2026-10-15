@@ -82,7 +82,7 @@ export function ReportDetailSheet({ report, onClose, onSocialChange }: ReportDet
             animate={{ y: 0 }}
             exit={{ y: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="relative max-h-[88dvh] sm:max-h-[92dvh] w-full sm:max-w-[520px] bg-(--bg) rounded-t-[28px] sm:rounded-[32px] border-t border-white/60 sm:border sm:shadow-2xl flex flex-col overflow-hidden"
+            className="relative max-h-[88dvh] sm:max-h-[92dvh] w-full sm:max-w-[520px] bg-(--card) rounded-t-[28px] sm:rounded-[32px] sm:shadow-2xl flex flex-col overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Alone colore categoria */}
@@ -95,7 +95,7 @@ export function ReportDetailSheet({ report, onClose, onSocialChange }: ReportDet
             {/* Maniglia + chiudi */}
             <div className="relative shrink-0 pt-3 pb-1 flex flex-col items-center">
               <span
-                className="w-10 h-1.5 rounded-full bg-[rgba(16,24,40,0.12)] sm:hidden"
+                className="w-10 h-1.5 rounded-full bg-(--bg-deep) sm:hidden"
                 aria-hidden
               />
               <div className="absolute right-4 top-3 scale-90 origin-top-right">
@@ -107,10 +107,10 @@ export function ReportDetailSheet({ report, onClose, onSocialChange }: ReportDet
               {/* Testata categoria */}
               <div className="flex items-center gap-4 mb-5">
                 <span
-                  className="w-16 h-16 rounded-full flex items-center justify-center text-[32px] shrink-0 bg-white"
+                  className="w-16 h-16 rounded-2xl flex items-center justify-center text-[32px] shrink-0"
                   style={{
-                    border: `2.5px solid ${cat.color}`,
-                    boxShadow: `0 6px 20px ${cat.color}33`,
+                    background: `${cat.color}1f`,
+                    boxShadow: `inset 0 0 0 2px ${cat.color}55`,
                   }}
                 >
                   {cat.emoji}
@@ -141,11 +141,11 @@ export function ReportDetailSheet({ report, onClose, onSocialChange }: ReportDet
                     {t(status.labelKey)}
                   </span>
                 )}
-                <span className="flex items-center gap-1.5 glass rounded-full px-3 py-1.5 text-xs font-semibold text-mid">
+                <span className="flex items-center gap-1.5 bg-(--surface-muted) border border-(--stroke) rounded-full px-3 py-1.5 text-xs font-semibold text-mid">
                   <Clock className="w-3.5 h-3.5" />
                   {timeAgo(report.created_at, t)}
                 </span>
-                <span className="flex items-center gap-1.5 glass rounded-full px-3 py-1.5 text-xs font-semibold text-mid">
+                <span className="flex items-center gap-1.5 bg-(--surface-muted) border border-(--stroke) rounded-full px-3 py-1.5 text-xs font-semibold text-mid">
                   {report.is_mine ? (
                     <UserCheck className="w-3.5 h-3.5 text-gold-600" />
                   ) : (
@@ -158,7 +158,7 @@ export function ReportDetailSheet({ report, onClose, onSocialChange }: ReportDet
               </div>
 
               {report.photo_url && (
-                <div className="rounded-3xl overflow-hidden border border-(--stroke-dark) shadow-sm mb-5 aspect-video">
+                <div className="rounded-2xl overflow-hidden border border-(--stroke) mb-5 aspect-video">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={report.photo_url} alt="" className="w-full h-full object-cover" />
                 </div>
@@ -177,7 +177,7 @@ export function ReportDetailSheet({ report, onClose, onSocialChange }: ReportDet
                 </p>
               )}
 
-              <div className="h-[170px] rounded-3xl overflow-hidden border border-(--stroke-dark) shadow-sm mb-6 bg-(--bg-deep)">
+              <div className="h-[170px] rounded-2xl overflow-hidden border border-(--stroke) mb-6 bg-(--bg-deep)">
                 <MapGL
                   initialViewState={{
                     longitude: report.longitude,
@@ -190,6 +190,16 @@ export function ReportDetailSheet({ report, onClose, onSocialChange }: ReportDet
                   interactive={false}
                   dragRotate={false}
                   touchZoomRotate={false}
+                  onLoad={(e) => {
+                    try {
+                      const m = e.target as unknown as {
+                        setConfigProperty: (s: string, k: string, v: boolean) => void;
+                      };
+                      m.setConfigProperty('basemap', 'showPointOfInterestLabels', false);
+                    } catch {
+                      // stile senza config
+                    }
+                  }}
                 >
                   <Marker longitude={report.longitude} latitude={report.latitude} anchor="center">
                     <span

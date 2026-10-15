@@ -18,7 +18,7 @@ export function RecentReportsPanel({ reports, openCount, onSelect }: RecentRepor
   const t = useT();
 
   return (
-    <aside className="hidden lg:flex absolute left-6 top-24 bottom-8 w-[350px] z-20 flex-col glass-heavy rounded-[28px] overflow-hidden">
+    <aside className="hidden lg:flex absolute left-6 top-[120px] bottom-8 w-[350px] z-20 flex-col glass-heavy rounded-[26px] overflow-hidden">
       <div className="shrink-0 px-5 pt-5 pb-3 flex items-center justify-between gap-3">
         <h2 className="text-base font-bold text-hi" style={{ fontFamily: 'var(--font-display)' }}>
           {t('map.recent.title')}
@@ -40,7 +40,7 @@ export function RecentReportsPanel({ reports, openCount, onSelect }: RecentRepor
                 <button
                   type="button"
                   onClick={() => onSelect(report)}
-                  className="w-full flex items-center gap-3 rounded-2xl px-3 py-2.5 hover:bg-white/70 active:scale-[0.99] transition-all text-left"
+                  className="w-full flex items-center gap-3 rounded-2xl px-3 py-2.5 hover:bg-(--surface-muted) active:scale-[0.99] transition-all text-left"
                 >
                   <span
                     className="w-11 h-11 rounded-full flex items-center justify-center text-xl shrink-0 bg-white"

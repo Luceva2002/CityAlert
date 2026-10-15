@@ -23,18 +23,18 @@ export function PillButton({
   className = '',
 }: PillButtonProps) {
   const base =
-    'w-full h-[54px] rounded-full font-bold text-[16px] tracking-wide flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.97] select-none';
+    'w-full h-[54px] rounded-2xl font-semibold text-[16px] flex items-center justify-center gap-2 transition-all duration-200 active:scale-[0.98] select-none';
 
   const variants = {
     gold: disabled
-      ? 'bg-(--bg-deep) text-low cursor-not-allowed'
-      : 'bg-linear-to-b from-gold-400 to-gold-600 text-(--on-gold) shadow-[0_8px_28px_rgba(245,179,1,0.4)] hover:brightness-105',
+      ? 'bg-gold-500/35 text-(--on-gold)/50 cursor-not-allowed'
+      : 'bg-gold-500 text-(--on-gold) shadow-(--shadow-gold) hover:bg-gold-400',
     ghost: disabled
       ? 'text-low cursor-not-allowed'
       : 'text-mid hover:text-hi',
     glass: disabled
-      ? 'glass text-low cursor-not-allowed'
-      : 'glass text-hi hover:bg-white/80',
+      ? 'card text-low cursor-not-allowed'
+      : 'card text-hi hover:bg-(--surface-muted)',
   };
 
   return (

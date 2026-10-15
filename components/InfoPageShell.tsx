@@ -24,10 +24,10 @@ export function InfoPageShell({ titleKey, subtitle, children }: InfoPageShellPro
   };
 
   return (
-    <div className="min-h-dvh bg-(--bg) dot-grid">
+    <div className="min-h-dvh bg-(--bg)">
       <div className="max-w-2xl mx-auto px-5 sm:px-8 pt-safe pb-16">
         <div className="flex items-center justify-between py-5">
-          <GlassIconButton onClick={goBack} ariaLabel={t('civicReport.back')}>
+          <GlassIconButton onClick={goBack} ariaLabel={t('civicReport.back')} className="rounded-2xl!">
             <ArrowLeft className="w-5 h-5" />
           </GlassIconButton>
           <span className="text-xl">
@@ -52,7 +52,7 @@ export function InfoPageShell({ titleKey, subtitle, children }: InfoPageShellPro
 /** Sezione vetro con titolo per le pagine informative */
 export function InfoSection({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="glass rounded-3xl px-6 py-5">
+    <section className="card rounded-3xl px-5 py-5 sm:px-6">
       <h2
         className="text-base font-bold text-hi mb-2.5"
         style={{ fontFamily: 'var(--font-display)' }}

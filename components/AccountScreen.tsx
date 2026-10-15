@@ -66,7 +66,7 @@ function ChangePasswordModal({ open, onClose }: { open: boolean; onClose: () => 
   };
 
   const inputClass =
-    'w-full h-[52px] px-5 rounded-2xl bg-white border border-(--stroke-dark) focus:border-gold-500 focus:shadow-[0_0_0_3px_rgba(245,179,1,0.15)] text-base text-hi outline-none placeholder:text-low transition-all';
+    'w-full h-[52px] px-4 rounded-2xl bg-(--surface-muted) border border-(--stroke-dark) focus:bg-white focus:border-gold-500 focus:shadow-[0_0_0_4px_rgba(245,179,1,0.18)] text-base text-hi outline-none placeholder:text-low transition-all';
 
   return (
     <AnimatePresence>
@@ -83,7 +83,7 @@ function ChangePasswordModal({ open, onClose }: { open: boolean; onClose: () => 
             animate={{ y: 0 }}
             exit={{ y: 48 }}
             transition={{ type: 'spring', damping: 26, stiffness: 260 }}
-            className="w-full max-w-md glass-heavy rounded-[28px] p-6"
+            className="w-full max-w-md card rounded-[28px] p-6"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-center justify-between mb-5">
@@ -108,7 +108,7 @@ function ChangePasswordModal({ open, onClose }: { open: boolean; onClose: () => 
             ) : (
               <form onSubmit={handleSubmit} className="flex flex-col gap-4">
                 <div>
-                  <label className="block text-[11px] font-bold text-low mb-2 ml-1 uppercase tracking-[0.14em]">
+                  <label className="block text-[13px] font-semibold text-hi mb-1.5 ml-0.5">
                     {t('profile.account.password.new')}
                   </label>
                   <input
@@ -123,7 +123,7 @@ function ChangePasswordModal({ open, onClose }: { open: boolean; onClose: () => 
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-bold text-low mb-2 ml-1 uppercase tracking-[0.14em]">
+                  <label className="block text-[13px] font-semibold text-hi mb-1.5 ml-0.5">
                     {t('profile.account.password.confirm')}
                   </label>
                   <input
@@ -245,10 +245,10 @@ export function AccountScreen() {
   ];
 
   return (
-    <div className="h-full overflow-y-auto bg-(--bg) dot-grid pb-10">
+    <div className="h-full overflow-y-auto bg-(--bg) pb-10">
       <div className="max-w-xl mx-auto">
         <div className="flex items-center gap-3 px-5 pt-safe pb-6">
-          <GlassIconButton href="/profile" ariaLabel={t('profile.title')}>
+          <GlassIconButton href="/profile" ariaLabel={t('profile.title')} className="rounded-2xl!">
             <ArrowLeft className="w-5 h-5" />
           </GlassIconButton>
           <h1
@@ -259,12 +259,12 @@ export function AccountScreen() {
           </h1>
         </div>
 
-        <div className="px-6 space-y-3">
+        <div className="px-4 sm:px-6 space-y-3">
           {/* Username modificabile */}
-          <div className="glass rounded-2xl px-5 py-4">
+          <div className="card rounded-2xl px-5 py-4">
             <div className="flex items-center justify-between gap-3">
               <div className="flex-1 min-w-0">
-                <p className="text-[10px] font-bold text-low uppercase tracking-[0.14em]">
+                <p className="eyebrow">
                   {t('profile.account.username')}
                 </p>
                 {editingName ? (
@@ -329,8 +329,8 @@ export function AccountScreen() {
           </div>
 
           {/* Email (sola lettura) */}
-          <div className="glass rounded-2xl px-5 py-4">
-            <p className="text-[10px] font-bold text-low uppercase tracking-[0.14em]">
+          <div className="card rounded-2xl px-5 py-4">
+            <p className="eyebrow">
               {t('profile.account.email')}
             </p>
             <p className="text-base font-semibold text-hi mt-1 break-all">
@@ -339,13 +339,13 @@ export function AccountScreen() {
           </div>
         </div>
 
-        <ul className="mt-8 mx-6 glass rounded-3xl overflow-hidden divide-y divide-[rgba(16,24,40,0.06)]">
+        <ul className="mt-6 mx-4 sm:mx-6 card rounded-3xl overflow-hidden divide-y divide-(--stroke)">
           {menuItems.map((item) => {
             const Icon = item.icon;
             const content = (
               <>
                 <span className="flex items-center gap-3">
-                  <span className="w-9 h-9 rounded-xl bg-(--gold-500)/12 flex items-center justify-center">
+                  <span className="w-9 h-9 rounded-xl bg-(--gold-tint) flex items-center justify-center">
                     <Icon className="w-[18px] h-[18px] text-gold-600" />
                   </span>
                   {t(item.key)}
@@ -354,7 +354,7 @@ export function AccountScreen() {
               </>
             );
             const itemClass =
-              'w-full flex items-center justify-between px-5 py-4 text-[15px] font-semibold text-hi hover:bg-white/60 active:bg-white/80 transition-colors';
+              'w-full flex items-center justify-between px-5 py-4 text-[15px] font-semibold text-hi hover:bg-(--surface-muted) active:bg-(--bg-deep) transition-colors';
             return (
               <li key={item.key}>
                 {item.href ? (
@@ -371,7 +371,7 @@ export function AccountScreen() {
           })}
         </ul>
 
-        <div className="px-6 mt-10">
+        <div className="px-4 sm:px-6 mt-8">
           <button
             type="button"
             disabled={signingOut}
@@ -380,7 +380,7 @@ export function AccountScreen() {
               await signOut();
               router.replace('/auth');
             }}
-            className="w-full text-center text-sm font-bold text-low hover:text-danger transition-colors disabled:opacity-50"
+            className="w-full h-12 rounded-2xl card text-center text-sm font-bold text-danger hover:bg-red-50 transition-colors disabled:opacity-50"
           >
             {signingOut ? t('profile.signingOut') : t('profile.account.signOut')}
           </button>
